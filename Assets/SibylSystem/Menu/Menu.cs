@@ -21,6 +21,7 @@ public class Menu : WindowServantSP
         UIHelper.registEvent(gameObject, "single_", Program.gugugu);
         UIHelper.registEvent(gameObject, "ai_", Program.gugugu);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
+        UIHelper.registEvent(gameObject, "joinQQ_", onClickJoinQQ);
         //(new Thread(up)).Start();
     }
 
@@ -124,6 +125,11 @@ public class Menu : WindowServantSP
     void onClickSelectDeck()
     {
         Program.I().shiftToServant(Program.I().selectDeck);
+    }
+
+    void onClickJoinQQ()
+    {
+        Application.OpenURL("http://download.ygo2019.xyz/url/");
     }
 
     public static void deleteShell()

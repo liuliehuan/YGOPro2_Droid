@@ -740,6 +740,7 @@ public class Ocgcore : ServantWithCardDescription
 
     public void onHome()
     {
+        Program.I().SaveConfig();
         returnTo();
     }
 

@@ -37,13 +37,20 @@ sysinfo.txt
 # ygopro
 ai/
 cdb/
+config/
 deck/
+expansions/
 pack/
+pics/
 picture/
 puzzle/
 replay/
+single/
+sound/
 texture/
-config/
+textures/
+update/
+updates/
 bin/
 Release/
 AI_core_vs2017solution/core.VC.db

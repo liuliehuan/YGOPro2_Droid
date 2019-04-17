@@ -21,7 +21,7 @@ public class DeckManager : ServantWithCardDescription
 
     UIPopupList UIPopupList_main;
 
-    UIPopupList UIPopupList_ban;    
+    UIPopupList UIPopupList_ban;
 
     UIPopupList UIPopupList_second;
 
@@ -81,7 +81,7 @@ public class DeckManager : ServantWithCardDescription
         UIInput_def = UIHelper.getByName<UIInput>(gameObjectDetailedSearch, "def_");
         for (int i = 0; i < 32; i++)
         {
-            UIToggle_effects[i] = UIHelper.getByName<UIToggle>(gameObjectDetailedSearch, "T (" + (i+1).ToString() + ")");
+            UIToggle_effects[i] = UIHelper.getByName<UIToggle>(gameObjectDetailedSearch, "T (" + (i + 1).ToString() + ")");
             UIHelper.trySetLableText(UIToggle_effects[i].gameObject, GameStringManager.get_unsafe(1100 + i));
             UIToggle_effects[i].GetComponentInChildren<UILabel>().overflowMethod = UILabel.Overflow.ClampContent;
         }
@@ -101,6 +101,10 @@ public class DeckManager : ServantWithCardDescription
         UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1316));
         UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1317));
         UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1318));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1240));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1241));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1242));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1243));
         clearAll();
         UIHelper.registEvent(UIPopupList_main.gameObject, onUIPopupList_main);
         UIHelper.registEvent(UIPopupList_second.gameObject, onUIPopupList_second);
@@ -111,7 +115,8 @@ public class DeckManager : ServantWithCardDescription
            itemOnListProducer,
            86
            );
-        Program.go(500, () => {
+        Program.go(500, () =>
+        {
             List<MonoCardInDeckManager> cs = new List<MonoCardInDeckManager>();
             for (int i = 0; i < 300; i++)
             {
@@ -213,14 +218,14 @@ public class DeckManager : ServantWithCardDescription
         RMSshow_input("onRename", InterString.Get("新的卡组名"), newnamer);
     }
 
-    public override void ES_RMS(string hashCode, List<messageSystemValue> result) 
+    public override void ES_RMS(string hashCode, List<messageSystemValue> result)
     {
         base.ES_RMS(hashCode, result);
         if (hashCode == "onRename")
         {
             string raw = Config.Get("deckInUse", "miaowu");
             Config.Set("deckInUse", result[0].value);
-            if (onSave()) 
+            if (onSave())
             {
                 ((CardDescription)Program.I().cardDescription).setTitle(result[0].value);
             }
@@ -233,7 +238,7 @@ public class DeckManager : ServantWithCardDescription
 
     public Action returnAction = null;
 
-    public bool onSave()    
+    public bool onSave()
     {
         try
         {
@@ -315,6 +320,7 @@ public class DeckManager : ServantWithCardDescription
         {
             returnAction();
         }
+        Program.I().SaveConfig();
     }
 
     void sort()
@@ -336,7 +342,7 @@ public class DeckManager : ServantWithCardDescription
     void clear()
     {
         var deckTemp = deck.getAllObjectCard();
-        foreach (var item in deckTemp)  
+        foreach (var item in deckTemp)
         {
             try
             {
@@ -344,7 +350,7 @@ public class DeckManager : ServantWithCardDescription
                 var rid = item.gameObject.GetComponent<Rigidbody>();
                 if (rid == null)
                 {
-                    rid= item.gameObject.AddComponent<Rigidbody>();
+                    rid = item.gameObject.AddComponent<Rigidbody>();
                 }
                 rid.AddForce(0.7f * (item.transform.position + new Vector3(0, 30 - Vector3.Distance(item.transform.position, Vector3.zero), 0)) / Program.deltaTime);
             }
@@ -373,14 +379,14 @@ public class DeckManager : ServantWithCardDescription
 
 
     bool detailPanelShiftedTemp = false;
-    void shiftDetailPanel(bool dragged) 
+    void shiftDetailPanel(bool dragged)
     {
         detailPanelShiftedTemp = dragged;
-        if (isShowed&&detailShowed) 
+        if (isShowed && detailShowed)
         {
             if (dragged)
             {
-                gameObjectDetailedSearch.GetComponent<UITexture>().color = new Color(1,1,1,0.7f);
+                gameObjectDetailedSearch.GetComponent<UITexture>().color = new Color(1, 1, 1, 0.7f);
             }
             else
             {
@@ -392,7 +398,7 @@ public class DeckManager : ServantWithCardDescription
 
     void refreshDetail()
     {
-        if (gameObjectDetailedSearch!=null) 
+        if (gameObjectDetailedSearch != null)
         {
             if (isShowed)
             {
@@ -633,6 +639,7 @@ public class DeckManager : ServantWithCardDescription
                     getDefence_UP(),
                     getP_UP(),
                     getYear_UP(),
+                    getOT(),
                     getPack(),
                     getBanFilter(),
                     currentBanlist,
@@ -662,7 +669,7 @@ public class DeckManager : ServantWithCardDescription
 
     void print(List<YGOSharp.Card> result)
     {
-        if (superScrollView!=null)
+        if (superScrollView != null)
         {
             PrintedResult = result;
             if (condition == Condition.editDeck)
@@ -690,9 +697,9 @@ public class DeckManager : ServantWithCardDescription
     bool ifType(string str)
     {
         bool re = false;
-        foreach (var item in seconds)   
+        foreach (var item in seconds)
         {
-            if (str==item)
+            if (str == item)
             {
                 re = true;
                 break;
@@ -829,6 +836,28 @@ public class DeckManager : ServantWithCardDescription
         if (UIPopupList_ban.value == GameStringManager.get_unsafe(1318))
         {
             returnValue = 2;
+        }
+        return returnValue;
+    }
+
+    int getOT()
+    {
+        int returnValue = 0;
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1240))
+        {
+            returnValue = 1;
+        }
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1241))
+        {
+            returnValue = 2;
+        }
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1242))
+        {
+            returnValue = 3;
+        }
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1243))
+        {
+            returnValue = 4;
         }
         return returnValue;
     }
@@ -1110,7 +1139,7 @@ public class DeckManager : ServantWithCardDescription
         t_unmber = create_s(Program.I().mod_ocgcore_number, new Vector3(-16.5f, 0, 2.6f), new Vector3(90, 0, 0), true).GetComponent<number_loader>();
         extra_unmber = create_s(Program.I().mod_ocgcore_number, new Vector3(-16.5f, 0, -5.3f), new Vector3(90, 0, 0), true).GetComponent<number_loader>();
         side_number = create_s(Program.I().mod_ocgcore_number, new Vector3(-16.5f, 0, -11f), new Vector3(90, 0, 0), true).GetComponent<number_loader>();
-        switch (condition)  
+        switch (condition)
         {
             case Condition.editDeck:
                 boxCollider.size = new Vector3(1, 1, 1);
@@ -1312,7 +1341,7 @@ public class DeckManager : ServantWithCardDescription
     {
         if (cardInDragging != null)
         {
-            if (Input.GetKey(KeyCode.LeftControl)|| Input.GetKey(KeyCode.RightControl))     
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
             {
                 //
             }
@@ -1510,7 +1539,7 @@ public class DeckManager : ServantWithCardDescription
         else
         {
             YGOSharp.Deck r = new YGOSharp.Deck();
-            foreach (var item in deck.Deck_O.Main)  
+            foreach (var item in deck.Deck_O.Main)
             {
                 r.Main.Add(item);
                 r.Deck_O.Main.Add(item);
@@ -1525,7 +1554,7 @@ public class DeckManager : ServantWithCardDescription
                 r.Extra.Add(item);
                 r.Deck_O.Extra.Add(item);
             }
-            return r;   
+            return r;
         }
     }
 
@@ -1631,7 +1660,7 @@ public class DeckManager : ServantWithCardDescription
     MonoCardInDeckManager createCard()
     {
         MonoCardInDeckManager r = null;
-        if (diedCards.Count>0)
+        if (diedCards.Count > 0)
         {
             r = diedCards[0].AddComponent<MonoCardInDeckManager>();
             diedCards.RemoveAt(0);
@@ -1675,7 +1704,7 @@ public class DeckManager : ServantWithCardDescription
         });
         int indexOfLogic = 0;
         int[] hangshu = UIHelper.get_decklieshuArray(deck.Main.Count);
-        foreach (var item in deck.Main) 
+        foreach (var item in deck.Main)
         {
             Vector2 v = UIHelper.get_hang_lieArry(indexOfLogic, hangshu);
             Vector3 toVector = new Vector3(UIHelper.get_left_right_index(-12.5f, 12.5f, (int)v.y, hangshu[(int)v.x]), 0.5f + v.y / 3f + v.x / 3f, 11.8f - v.x * 4f);
@@ -1686,14 +1715,14 @@ public class DeckManager : ServantWithCardDescription
                 card.cardData = data;
                 card.gameObject.layer = 16;
                 deck.IMain.Add(card);
-                card.tweenToVectorAndFall(toVector,new Vector3(90,0,0));
+                card.tweenToVectorAndFall(toVector, new Vector3(90, 0, 0));
             });
             indexOfLogic++;
         }
         indexOfLogic = 0;
         foreach (var item in deck.Extra)
         {
-            Vector3 toVector = new Vector3(UIHelper.get_left_right_indexZuo(-12.5f, 12.5f, indexOfLogic, deck.Extra.Count ,10), 0.5f + (float)indexOfLogic / 3f, -6.2f);
+            Vector3 toVector = new Vector3(UIHelper.get_left_right_indexZuo(-12.5f, 12.5f, indexOfLogic, deck.Extra.Count, 10), 0.5f + (float)indexOfLogic / 3f, -6.2f);
             YGOSharp.Card data = YGOSharp.CardsManager.Get(item);
             safeGogo(indexOfLogic * 90, () =>
             {
@@ -1767,12 +1796,12 @@ public class DeckManager : ServantWithCardDescription
                     toAngle = new Vector3(87f - (deck.ISide.Count - 10f) * 0.4f, -90, -90);
                 }
             }
-            Vector3 toVector = new Vector3(UIHelper.get_left_right_indexZuo(-12.5f, 12.5f, i, deck.ISide.Count ,10), 0.6f + Mathf.Sin((90 - toAngle.x) / 180f * Mathf.PI) * k, -12f);
+            Vector3 toVector = new Vector3(UIHelper.get_left_right_indexZuo(-12.5f, 12.5f, i, deck.ISide.Count, 10), 0.6f + Mathf.Sin((90 - toAngle.x) / 180f * Mathf.PI) * k, -12f);
             deck.ISide[i].tweenToVectorAndFall(toVector, toAngle);
         }
     }
 
-    public void FromObjectDeckToCodedDeck(bool order=false)
+    public void FromObjectDeckToCodedDeck(bool order = false)
     {
         ArrangeObjectDeck(order);
         deck.Main.Clear();
@@ -1792,7 +1821,7 @@ public class DeckManager : ServantWithCardDescription
         }
     }
 
-    public void setGoodLooking(bool side=false) 
+    public void setGoodLooking(bool side = false)
     {
         try
         {
@@ -1802,10 +1831,10 @@ public class DeckManager : ServantWithCardDescription
         {
             UnityEngine.Debug.Log(e);
         }
-        if (side)   
+        if (side)
         {
             List<YGOSharp.Card> result = new List<YGOSharp.Card>();
-            foreach (var item in Program.I().ocgcore.sideReference) 
+            foreach (var item in Program.I().ocgcore.sideReference)
             {
                 result.Add(YGOSharp.CardsManager.Get(item.Value));
             }
@@ -1822,7 +1851,7 @@ public class DeckManager : ServantWithCardDescription
         Program.go(300, superScrollView.toTop);
         Program.go(400, superScrollView.toTop);
         Program.go(500, superScrollView.toTop);
-        if (side)   
+        if (side)
         {
             UIInput_search.value = InterString.Get("对手使用过的卡↓");
             UIInput_search.isSelected = false;

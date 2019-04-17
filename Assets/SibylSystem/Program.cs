@@ -85,6 +85,7 @@ public class Program : MonoBehaviour
     public GameObject new_ui_setting;
     public GameObject new_ui_book;
     public GameObject new_ui_selectServer;
+    public GameObject new_ui_RoomList;
     public GameObject new_ui_gameInfo;
     public GameObject new_ui_cardDescription;
     public GameObject new_ui_search;
@@ -273,6 +274,11 @@ public class Program : MonoBehaviour
 
     void initialize()
     {
+#if !UNITY_EDITOR && UNITY_STANDALONE_OSX //Mac
+        string GamePaths = Application.streamingAssetsPath;// .app/Contents/Resources/Data/StreamingAssets/
+        Environment.CurrentDirectory = GamePaths;
+        System.IO.Directory.SetCurrentDirectory(GamePaths);
+#endif
 
         go(1, () =>
         {
@@ -288,18 +294,26 @@ public class Program : MonoBehaviour
             InterString.initialize("config/translation.conf");
             GameTextureManager.initialize();
             Config.initialize("config/config.conf");
-            GameStringManager.initialize("config/strings.conf");
+            if (File.Exists("config/strings.conf"))
+            {
+                GameStringManager.initialize("config/strings.conf");
+            }
+            //if (File.Exists("config" + AppLanguage.LanguageDir() + "/strings.conf"))
+            //{
+            //    GameStringManager.initialize("config" + AppLanguage.LanguageDir() + "/strings.conf");
+            //}
             if (File.Exists("cdb/strings.conf"))
             {
                 GameStringManager.initialize("cdb/strings.conf");
             }
-            if (File.Exists("diy/strings.conf"))
+            if (File.Exists("expansions/strings.conf"))
             {
-                GameStringManager.initialize("diy/strings.conf");
+                GameStringManager.initialize("expansions/strings.conf");
             }
             YGOSharp.BanlistManager.initialize("config/lflist.conf");
 
             var fileInfos = (new DirectoryInfo("cdb")).GetFiles();
+            //var fileInfos = (new DirectoryInfo("cdb" + AppLanguage.LanguageDir())).GetFiles();
             for (int i = 0; i < fileInfos.Length; i++)
             {
                 if (fileInfos[i].Name.Length > 4)
@@ -307,20 +321,21 @@ public class Program : MonoBehaviour
                     if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".cdb")
                     {
                         YGOSharp.CardsManager.initialize("cdb/" + fileInfos[i].Name);
+                        //YGOSharp.CardsManager.initialize("cdb" + AppLanguage.LanguageDir() + "/" + fileInfos[i].Name);
                     }
                 }
             }
 
-            if (Directory.Exists("diy"))
+            if (Directory.Exists("expansions"))
             {
-                fileInfos = (new DirectoryInfo("diy")).GetFiles();
+                fileInfos = (new DirectoryInfo("expansions")).GetFiles();
                 for (int i = 0; i < fileInfos.Length; i++)
                 {
                     if (fileInfos[i].Name.Length > 4)
                     {
                         if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".cdb")
                         {
-                            YGOSharp.CardsManager.initialize("diy/" + fileInfos[i].Name);
+                            YGOSharp.CardsManager.initialize("expansions/" + fileInfos[i].Name);
                         }
                     }
                 }
@@ -730,6 +745,7 @@ public class Program : MonoBehaviour
     public DeckManager deckManager;
     public Ocgcore ocgcore;
     public SelectServer selectServer;
+    public RoomList roomList;
     public Book book;
     public puzzleMode puzzleMode;
     public AIRoom aiRoom;
@@ -751,6 +767,8 @@ public class Program : MonoBehaviour
         servants.Add(ocgcore);
         selectServer = new SelectServer();
         servants.Add(selectServer);
+        roomList = new RoomList();
+        servants.Add(roomList);
         book = new Book();
         servants.Add(book);
         selectReplay = new selectReplay();
@@ -807,6 +825,10 @@ public class Program : MonoBehaviour
         {
             aiRoom.hide();
         }
+        if(to != roomList && to != selectServer && roomList.isShowed)
+        {
+            roomList.hide();
+        }
 
         if (to == backGroundPic && backGroundPic.isShowed == false) backGroundPic.show();
         if (to == menu && menu.isShowed == false) menu.show();
@@ -819,6 +841,7 @@ public class Program : MonoBehaviour
         if (to == selectReplay && selectReplay.isShowed == false) selectReplay.show();
         if (to == puzzleMode && puzzleMode.isShowed == false) puzzleMode.show();
         if (to == aiRoom && aiRoom.isShowed == false) aiRoom.show();
+        if (to == roomList && !roomList.isShowed) roomList.show();
 
     }
 
@@ -849,9 +872,13 @@ public class Program : MonoBehaviour
     void OnGUI()
     {
         if (Event.current.type == EventType.ScrollWheel)
+        {
             _padScroll = -Event.current.delta.y / 100;
+        }
         else
+        {
             _padScroll = 0;
+        }
     }
 
     void Update()
@@ -973,8 +1000,7 @@ public class Program : MonoBehaviour
     void OnApplicationQuit()
     {
         TcpHelper.SaveRecord();
-        cardDescription.save();
-        setting.saveWhenQuit();
+        SaveConfig();
         for (int i = 0; i < servants.Count; i++)
         {
             servants[i].OnQuit();
@@ -994,6 +1020,13 @@ public class Program : MonoBehaviour
     public void quit()
     {
         OnApplicationQuit();
+    }
+
+    public void SaveConfig()
+    {
+        cardDescription.save();
+        setting.save();
+        setting.saveWhenQuit();
     }
 
     #endregion

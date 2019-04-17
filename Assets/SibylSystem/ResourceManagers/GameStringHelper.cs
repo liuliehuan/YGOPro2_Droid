@@ -125,16 +125,16 @@ public class GameStringHelper
         switch(card.Ot)
         {
         case 1:
-            limitot = "[OCG] ";
+            limitot = GameStringManager.get_unsafe(1240);
             break;
         case 2:
-            limitot = "[TCG] ";
+            limitot = GameStringManager.get_unsafe(1241);
             break;
         case 3:
-            limitot = "[OCG/TCG] ";
+            limitot = GameStringManager.get_unsafe(1242);
             break;
         case 4:
-            limitot = "[Anime] ";
+            limitot = GameStringManager.get_unsafe(1243);
             break;
         }
         string re = "";
@@ -142,7 +142,7 @@ public class GameStringHelper
         {
             re += "[b]" + card.Name + "[/b]";
             re += "\n";
-            re += "[sup]" + limitot + "[/sup]";
+            re += "[sup][" + limitot + "] [/sup]";
             re += "\n";
             re += "[sup]" + card.Id.ToString() + "[/sup]";
             re += "\n";

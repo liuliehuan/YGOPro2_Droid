@@ -23,3 +23,18 @@ We use Yu-Gi-Oh card game only to test our engine, and the game is not for comme
 2. build the c++ solution in x64 and release mode and you get the **ocgcore.dll**
 
 3. copy it into **YGOProUnity_V2\Assets\Plugins**
+
+# Linux Or macOS install libgdiplus
+**Ubuntu**
+
+`
+apt intsall libgdiplus
+`
+
+**Other Linux**
+
+Download [libgdiplus-devel](https://pkgs.org/download/libgdiplus-devel)
+
+**macOS**
+
+Download [MonoFramework](https://download.mono-project.com/archive/5.16.0/macos-10-universal/MonoFramework-MDK-5.16.0.220.macos10.xamarin.universal.pkg)

@@ -124,7 +124,7 @@ public class gameInfo : MonoBehaviour
 
         width = (150 * kb) + 15f;
         float localPositionPanX = (((float)Screen.width - 150 * kb) / 2) - 15f;
-        instance_btnPan.transform.localPosition = new Vector3(localPositionPanX, 145, 0);
+        instance_btnPan.transform.localPosition = new Vector3(localPositionPanX, 120, 0);
         instance_lab.transform.localPosition = new Vector3(Screen.width/2-315, -Screen.height / 2+90, 0);
         int j = 0;
         for (int i = 0; i < HashedButtons.Count; i++)

@@ -322,6 +322,11 @@ public class GameTextureManager
             }
             if (!File.Exists(path))
             {
+                Iam8 = true;
+                path = "expansions/pics/" + pic.code.ToString() + ".jpg";
+            }
+            if (!File.Exists(path))
+            {
                 pic.hashed_data = new float[10, 10, 4];
                 for (int w = 0; w < 10; w++)
                 {
@@ -583,6 +588,11 @@ public class GameTextureManager
             }
             if (!File.Exists(path))
             {
+                Iam8 = true;
+                path = "expansions/pics/" + pic.code.ToString() + ".jpg";
+            }
+            if (!File.Exists(path))
+            {
                 path = "texture/duel/unknown.jpg";
             }
             if (!File.Exists(path))
@@ -715,6 +725,10 @@ public class GameTextureManager
         if (!File.Exists(path))
         {
             path = "picture/cardIn8thEdition/" + pic.code.ToString() + ".jpg";
+        }
+        if (!File.Exists(path))
+        {
+            path = "expansions/pics/" + pic.code.ToString() + ".jpg";
         }
         if (!File.Exists(path))
         {
