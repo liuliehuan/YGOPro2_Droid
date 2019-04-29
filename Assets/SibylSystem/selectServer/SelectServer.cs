@@ -23,6 +23,7 @@ public class SelectServer : WindowServantSP
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
         UIHelper.registEvent(gameObject, "face_", onClickFace);
         UIHelper.registEvent(gameObject, "join_", onClickJoin);
+        UIHelper.registEvent(gameObject, "clearPsw_", onClearPsw);
         serversList = UIHelper.getByName<UIPopupList>(gameObject, "server");
         serversList.value = Config.Get("serversPicker", "[Ser1] 233正式服");
         UIHelper.registEvent(gameObject, "server", pickServer);
@@ -151,8 +152,23 @@ public class SelectServer : WindowServantSP
         inputPort.value = port;
         inputPsw.value = psw;
 */
+        str = str.Substring(5, str.Length - 5);
         inputPsw.value = str;
         //inputVersion.value = version;
+    }
+
+    void onClearPsw()
+    {
+        string PswString = File.ReadAllText("config/passwords.conf");
+        string[] lines = PswString.Replace("\r", "").Split("\n");
+        for (int i = 0; i < lines.Length; i++)
+        {
+            list.RemoveItem(lines[i]);//清空list
+        }
+        FileStream stream = new FileStream("config/passwords.conf", FileMode.Truncate, FileAccess.ReadWrite);//清空文件内容
+        stream.Close();
+        inputPsw.value = "";
+        Program.PrintToChat(InterString.Get("房间密码已清空"));
     }
 
     public override void show()
@@ -254,7 +270,7 @@ public class SelectServer : WindowServantSP
             if (name != "")
             {
                 //string fantasty = "(" + versionString + ")" + ipString + ":" + portString + " " + pswString;
-                string fantasty = pswString;
+                string fantasty = "psw: " + pswString;
                 list.items.Remove(fantasty);
                 list.items.Insert(0, fantasty);
                 list.value = fantasty;
