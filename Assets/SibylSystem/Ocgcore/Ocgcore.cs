@@ -755,13 +755,21 @@ public class Ocgcore : ServantWithCardDescription
         }
     }
 
+    public void setDefaultReturnServant() {
+        if (Program.I().mycard.isMatching) {
+             returnServant = Program.I().mycard;
+    } else { 
+            returnServant = Program.I().selectServer;
+        }
+    }
+
     public void onExit()
     {
         if (TcpHelper.tcpClient != null)
         {
             if (TcpHelper.tcpClient.Connected)
             {
-                Program.I().ocgcore.returnServant = Program.I().selectServer;
+                setDefaultReturnServant();
                 TcpHelper.tcpClient.Client.Shutdown(0);
                 TcpHelper.tcpClient.Close();
             }
@@ -776,7 +784,7 @@ public class Ocgcore : ServantWithCardDescription
         {
             /*if (TcpHelper.tcpClient.Connected)
             {
-                Program.I().ocgcore.returnServant = Program.I().selectServer;
+                setDefaultReturnServant();
                 TcpHelper.tcpClient.Client.Shutdown(0);
                 TcpHelper.tcpClient.Close();
             } */

@@ -157,6 +157,7 @@ MonoBehaviour:
   new_ui_setting: {fileID: 0}
   new_ui_book: {fileID: 0}
   new_ui_selectServer: {fileID: 0}
+  new_ui_mycard: {fileID: 0}
   new_ui_gameInfo: {fileID: 0}
   new_ui_cardDescription: {fileID: 0}
   new_ui_search: {fileID: 0}

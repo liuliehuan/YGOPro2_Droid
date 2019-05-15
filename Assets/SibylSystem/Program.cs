@@ -87,6 +87,7 @@ public class Program : MonoBehaviour
     public GameObject new_ui_setting;
     public GameObject new_ui_book;
     public GameObject new_ui_selectServer;
+    public GameObject new_ui_mycard;
     public GameObject new_ui_RoomList;
     public GameObject new_ui_gameInfo;
     public GameObject new_ui_cardDescription;
@@ -887,6 +888,7 @@ public class Program : MonoBehaviour
     public DeckManager deckManager;
     public Ocgcore ocgcore;
     public SelectServer selectServer;
+    public MyCard mycard;
     public RoomList roomList;
     public Book book;
     public puzzleMode puzzleMode;
@@ -909,6 +911,8 @@ public class Program : MonoBehaviour
         servants.Add(ocgcore);
         selectServer = new SelectServer();
         servants.Add(selectServer);
+        mycard = new MyCard();
+        servants.Add(mycard);
         roomList = new RoomList();
         servants.Add(roomList);
         book = new Book();
@@ -955,6 +959,10 @@ public class Program : MonoBehaviour
         {
             selectServer.hide();
         }
+        if (to != mycard && mycard.isShowed)
+        {
+            mycard.hide();
+        }
         if (to != selectReplay && selectReplay.isShowed)
         {
             selectReplay.hide();
@@ -980,6 +988,7 @@ public class Program : MonoBehaviour
         if (to == deckManager && deckManager.isShowed == false) deckManager.show();
         if (to == ocgcore && ocgcore.isShowed == false) ocgcore.show();
         if (to == selectServer && selectServer.isShowed == false) selectServer.show();
+        if (to == mycard && mycard.isShowed == false) mycard.show();
         if (to == selectReplay && selectReplay.isShowed == false) selectReplay.show();
         if (to == puzzleMode && puzzleMode.isShowed == false) puzzleMode.show();
         if (to == aiRoom && aiRoom.isShowed == false) aiRoom.show();
@@ -1041,7 +1050,7 @@ public class Program : MonoBehaviour
 
         string FPS = m_FPS.ToString();
         try { FPS = FPS.Substring(0, 5); } catch{}
-        GUI.Label(new Rect(10, 5, 200, 200), "[Ver 1.034.9] " + "FPS: " + FPS);
+        GUI.Label(new Rect(10, 5, 200, 200), "[Ver 1.034.9-B] " + "FPS: " + FPS);
     }
 
     void Update()
