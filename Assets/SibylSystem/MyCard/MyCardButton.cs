@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MycardButton : MonoBehaviour {
+public class MyCardButton : MonoBehaviour {
     public Canvas buttonCanvas;
     public CanvasGroup buttonCanvasGroup;
     public GameObject button;
@@ -16,7 +16,8 @@ public class MycardButton : MonoBehaviour {
 
     public void onClickMyCard()
     {
-        Program.I().shiftToServant(Program.I().mycard);
+        //Program.I().shiftToServant(Program.I().mycard);
+        Program.PrintToChat(InterString.Get("功能开发中..."));
     }
 
     // Update is called once per frame
