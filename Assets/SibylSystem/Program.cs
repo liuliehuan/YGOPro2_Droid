@@ -981,19 +981,19 @@ public class Program : MonoBehaviour
             roomList.hide();
         }
 
-        if (to == backGroundPic && backGroundPic.isShowed == false) { backGroundPic.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu);  }
-        if (to == menu && menu.isShowed == false) { menu.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
-        if (to == setting && setting.isShowed == false) { setting.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
-        if (to == selectDeck && selectDeck.isShowed == false) { selectDeck.show(); BGMController.Instance.StartBGM(BGMController.BGMType.deck); }
-        if (to == room && room.isShowed == false) { room.show(); BGMController.Instance.StartBGM(BGMController.BGMType.lobby); }
-        if (to == deckManager && deckManager.isShowed == false) { deckManager.show(); BGMController.Instance.StartBGM(BGMController.BGMType.deck); }
-        if (to == ocgcore && ocgcore.isShowed == false) { ocgcore.show(); /*BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);*/ }
-        if (to == selectServer && selectServer.isShowed == false) { selectServer.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
-        if (to == mycard && mycard.isShowed == false) {mycard.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
-        if (to == selectReplay && selectReplay.isShowed == false) { selectReplay.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
-        if (to == puzzleMode && puzzleMode.isShowed == false) { puzzleMode.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
-        if (to == aiRoom && aiRoom.isShowed == false) { aiRoom.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
-        if (to == roomList && !roomList.isShowed) { roomList.show(); BGMController.Instance.StartBGM(BGMController.BGMType.lobby); }
+        if (to == backGroundPic && backGroundPic.isShowed == false) { backGroundPic.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == menu && menu.isShowed == false) { menu.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == setting && setting.isShowed == false) { setting.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == selectDeck && selectDeck.isShowed == false) { selectDeck.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.deck);} catch{} }
+        if (to == room && room.isShowed == false) { room.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.lobby);} catch{} }
+        if (to == deckManager && deckManager.isShowed == false) { deckManager.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.deck);} catch{} }
+        if (to == ocgcore && ocgcore.isShowed == false) { ocgcore.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);} catch{} }
+        if (to == selectServer && selectServer.isShowed == false) { selectServer.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == mycard && mycard.isShowed == false) {mycard.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == selectReplay && selectReplay.isShowed == false) { selectReplay.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == puzzleMode && puzzleMode.isShowed == false) { puzzleMode.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == aiRoom && aiRoom.isShowed == false) { aiRoom.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == roomList && !roomList.isShowed) { roomList.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.lobby);} catch{} }
 
     }
 

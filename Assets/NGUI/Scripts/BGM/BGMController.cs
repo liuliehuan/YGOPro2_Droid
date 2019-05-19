@@ -135,15 +135,16 @@ public class BGMController : MonoBehaviour
         win = new List<string>();
 
         string soundPath = "sound/bgm/";
-        btl_general.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_general"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
-        btl_winning.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_winning"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
-        btl_losing.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_losing"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
-        deck.AddRange(Directory.GetFiles(string.Concat(soundPath, "deck"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
-        lobby.AddRange(Directory.GetFiles(string.Concat(soundPath, "lobby"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
-        lose.AddRange(Directory.GetFiles(string.Concat(soundPath, "lose"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
-        menu.AddRange(Directory.GetFiles(string.Concat(soundPath, "menu"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
-        siding.AddRange(Directory.GetFiles(string.Concat(soundPath, "siding"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
-        win.AddRange(Directory.GetFiles(string.Concat(soundPath, "win"), "*" + soundExtension, SearchOption.TopDirectoryOnly));
+        //防止缺少文件时发生错误
+        try { btl_general.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_general"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { btl_winning.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_winning"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { btl_losing.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_losing"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { deck.AddRange(Directory.GetFiles(string.Concat(soundPath, "deck"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { lobby.AddRange(Directory.GetFiles(string.Concat(soundPath, "lobby"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { lose.AddRange(Directory.GetFiles(string.Concat(soundPath, "lose"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { menu.AddRange(Directory.GetFiles(string.Concat(soundPath, "menu"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { siding.AddRange(Directory.GetFiles(string.Concat(soundPath, "siding"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { win.AddRange(Directory.GetFiles(string.Concat(soundPath, "win"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
     }
 
     public void changeBGMVol(float vol)

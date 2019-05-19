@@ -1226,18 +1226,20 @@ public class Ocgcore : ServantWithCardDescription
     //BGM
     public IEnumerator BGMHandler()
     {
-        if (Program.I().room.duelEnded)
-            yield break;
-        else if (result == duelResult.disLink && life_0 >= life_1 * 2)
-            BGMController.Instance.StartBGM(BGMController.BGMType.btl_winning);
-        else if (result == duelResult.disLink && life_1 >= life_0 * 2)
-            BGMController.Instance.StartBGM(BGMController.BGMType.btl_losing);
-        else if (result == duelResult.win)
-            BGMController.Instance.StartBGM(BGMController.BGMType.win);
-        else if (result == duelResult.lose || result == duelResult.draw)
-            BGMController.Instance.StartBGM(BGMController.BGMType.lose);
-        else if(result == duelResult.disLink)
-            BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);
+        try {
+            if (Program.I().room.duelEnded)
+                yield break;
+            else if (result == duelResult.disLink && life_0 >= life_1 * 2)
+                BGMController.Instance.StartBGM(BGMController.BGMType.btl_winning);
+            else if (result == duelResult.disLink && life_1 >= life_0 * 2)
+                BGMController.Instance.StartBGM(BGMController.BGMType.btl_losing);
+            else if (result == duelResult.win)
+                BGMController.Instance.StartBGM(BGMController.BGMType.win);
+            else if (result == duelResult.lose || result == duelResult.draw)
+                BGMController.Instance.StartBGM(BGMController.BGMType.lose);
+            else if(result == duelResult.disLink)
+                BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);
+        } catch {}
 
         yield return new WaitForSeconds(0.125f);
     }
@@ -1341,8 +1343,10 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 break;
             case GameMessage.Start:
-                BGMController.Instance.StartCoroutine(BGMHandler());
-                BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);
+                try {
+                    BGMController.Instance.StartCoroutine(BGMHandler());
+                    BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);
+                } catch {}
                 confirmedCards.Clear();
                 gameField.currentPhase = GameField.ph.dp;
                 result = duelResult.disLink;
