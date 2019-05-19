@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -1222,6 +1223,25 @@ public class Ocgcore : ServantWithCardDescription
         Packages.Add(p);
     }
 
+    //BGM
+    public IEnumerator BGMHandler()
+    {
+        if (Program.I().room.duelEnded)
+            yield break;
+        else if (result == duelResult.disLink && life_0 >= life_1 * 2)
+            BGMController.Instance.StartBGM(BGMController.BGMType.btl_winning);
+        else if (result == duelResult.disLink && life_1 >= life_0 * 2)
+            BGMController.Instance.StartBGM(BGMController.BGMType.btl_losing);
+        else if (result == duelResult.win)
+            BGMController.Instance.StartBGM(BGMController.BGMType.win);
+        else if (result == duelResult.lose || result == duelResult.draw)
+            BGMController.Instance.StartBGM(BGMController.BGMType.lose);
+        else if(result == duelResult.disLink)
+            BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);
+
+        yield return new WaitForSeconds(0.125f);
+    }
+
     //handle messages
     enum autoForceChainHandlerType
     {
@@ -1321,6 +1341,8 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 break;
             case GameMessage.Start:
+                BGMController.Instance.StartCoroutine(BGMHandler());
+                BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);
                 confirmedCards.Clear();
                 gameField.currentPhase = GameField.ph.dp;
                 result = duelResult.disLink;
@@ -1407,7 +1429,7 @@ public class Ocgcore : ServantWithCardDescription
                         cards[i].p.location = (UInt32)CardLocation.Unknown;
                     }
                 cookie_matchKill = 0;
-                
+
                 if (Program.I().room.mode == 0)
                 {
                     printDuelLog(InterString.Get("单局模式 决斗开始！"));
@@ -3987,7 +4009,7 @@ public class Ocgcore : ServantWithCardDescription
                 int _field = ~r.ReadInt32();
                 if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true)
                 {
-                    
+
                     ES_min = min;
                     for (int i = 0; i < min; i++)
                     {
@@ -7225,7 +7247,7 @@ public class Ocgcore : ServantWithCardDescription
                     gameField.opPHole = false;
                 }
             }
-           
+
         }
         else
         {
@@ -7279,7 +7301,7 @@ public class Ocgcore : ServantWithCardDescription
             }
 
         }
-        
+
         for (int i = 0; i < cards.Count; i++) if (cards[i].gameObject.activeInHierarchy)
                 if (cards[i].cookie_cared == false)
                 {
@@ -7308,7 +7330,7 @@ public class Ocgcore : ServantWithCardDescription
                     cards[i].UA_flush_all_gived_witn_lock(rush);
                 }
 
-        
+
         if (Program.I().setting.setting.Vfield.value)
         {
             int code = 0;
