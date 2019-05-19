@@ -64,56 +64,54 @@ public class BGMController : MonoBehaviour
         if (currentPlaying == kind)
             return;
 
-        string bgmFiles = "sound/bgm";
         System.Random rnd = new System.Random();
-        int bgmNumber = 1;
+        int bgmNumber = 0;
         switch (kind)
         {
             case BGMType.btl_general:
-                bgmFiles += "/btl_general";
-                bgmNumber = rnd.Next(1, btl_general.Count);
+                bgmNumber = rnd.Next(0, btl_general.Count);
+                PlayRandomBGM(btl_general[bgmNumber]);
                 break;
             case BGMType.btl_winning:
-                bgmFiles += "/btl_winning";
-                bgmNumber = rnd.Next(1, btl_winning.Count);
+                bgmNumber = rnd.Next(0, btl_winning.Count);
+                PlayRandomBGM(btl_winning[bgmNumber]);
                 break;
             case BGMType.btl_losing:
-                bgmFiles += "/btl_losing";
-                bgmNumber = rnd.Next(1, btl_losing.Count);
+                bgmNumber = rnd.Next(0, btl_losing.Count);
+                PlayRandomBGM(btl_losing[bgmNumber]);
                 break;
             case BGMType.deck:
-                bgmFiles += "/deck";
-                bgmNumber = rnd.Next(1, deck.Count);
+                bgmNumber = rnd.Next(0, deck.Count);
+                PlayRandomBGM(deck[bgmNumber]);
                 break;
             case BGMType.lobby:
-                bgmFiles += "/lobby";
-                bgmNumber = rnd.Next(1, lobby.Count);
+                bgmNumber = rnd.Next(0, lobby.Count);
+                PlayRandomBGM(lobby[bgmNumber]);
                 break;
             case BGMType.lose:
-                bgmFiles += "/lose";
-                bgmNumber = rnd.Next(1, lose.Count);
+                bgmNumber = rnd.Next(0, lose.Count);
+                PlayRandomBGM(lose[bgmNumber]);
                 break;
             case BGMType.menu:
-                bgmFiles += "/menu";
-                bgmNumber = rnd.Next(1, menu.Count);
+                bgmNumber = rnd.Next(0, menu.Count);
+                PlayRandomBGM(menu[bgmNumber]);
                 break;
             case BGMType.siding:
-                bgmFiles += "/siding";
-                bgmNumber = rnd.Next(1, siding.Count);
+                bgmNumber = rnd.Next(0, siding.Count);
+                PlayRandomBGM(siding[bgmNumber]);
                 break;
             case BGMType.win:
-                bgmFiles += "/win";
-                bgmNumber = rnd.Next(1, win.Count);
+                bgmNumber = rnd.Next(0, win.Count);
+                PlayRandomBGM(win[bgmNumber]);
                 break;
         }
 
-        PlayRandomBGM(bgmFiles, bgmNumber);
         currentPlaying = kind;
     }
 
-    public void PlayRandomBGM(string bgmPath, int bgmNumber)
+    public void PlayRandomBGM(string bgmName)
     {
-        SoundURI = new Uri(new Uri("file:///"), Environment.CurrentDirectory.Replace("\\", "/") + "/" + bgmPath + "/" + bgmNumber.ToString() + soundExtension);
+        SoundURI = new Uri(new Uri("file:///"), Environment.CurrentDirectory.Replace("\\", "/") + "/" + bgmName);
         soundFilePath = SoundURI.ToString();
 
         if (Program.I().setting != null && !Program.I().setting.isBGMMute.value)

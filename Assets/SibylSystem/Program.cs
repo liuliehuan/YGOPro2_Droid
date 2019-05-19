@@ -987,7 +987,7 @@ public class Program : MonoBehaviour
         if (to == selectDeck && selectDeck.isShowed == false) { selectDeck.show(); BGMController.Instance.StartBGM(BGMController.BGMType.deck); }
         if (to == room && room.isShowed == false) { room.show(); BGMController.Instance.StartBGM(BGMController.BGMType.lobby); }
         if (to == deckManager && deckManager.isShowed == false) { deckManager.show(); BGMController.Instance.StartBGM(BGMController.BGMType.deck); }
-        if (to == ocgcore && ocgcore.isShowed == false) { ocgcore.show(); BGMController.Instance.StartBGM(BGMController.BGMType.btl_general); }
+        if (to == ocgcore && ocgcore.isShowed == false) { ocgcore.show(); /*BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);*/ }
         if (to == selectServer && selectServer.isShowed == false) { selectServer.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
         if (to == mycard && mycard.isShowed == false) {mycard.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
         if (to == selectReplay && selectReplay.isShowed == false) { selectReplay.show(); BGMController.Instance.StartBGM(BGMController.BGMType.menu); }
