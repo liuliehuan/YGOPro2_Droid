@@ -18,7 +18,7 @@ public class Menu : WindowServantSP
         UIHelper.registEvent(gameObject, "deck_", onClickSelectDeck);
         UIHelper.registEvent(gameObject, "online_", onClickOnline);
         UIHelper.registEvent(gameObject, "replay_", onClickReplay);
-        UIHelper.registEvent(gameObject, "single_", onClickPizzle);
+        //UIHelper.registEvent(gameObject, "single_", onClickPizzle);
         //UIHelper.registEvent(gameObject, "ai_", onClickAI);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
         UIHelper.registEvent(gameObject, "joinQQ_", onClickJoinQQ);
@@ -196,6 +196,10 @@ public class Menu : WindowServantSP
                 return;
             }
             if (Program.I().selectServer == null)
+            {
+                return;
+            }
+            if (Program.I().mycard == null)
             {
                 return;
             }

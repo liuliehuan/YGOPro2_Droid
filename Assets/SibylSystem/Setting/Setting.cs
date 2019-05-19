@@ -6,6 +6,8 @@ public class Setting : WindowServant2D
 
     public LAZYsetting setting;
 
+    public UIToggle isBGMMute;
+
     public override void initialize()
     {
         gameObject = createWindow(this, Program.I().new_ui_setting);
@@ -24,6 +26,10 @@ public class Setting : WindowServant2D
         UIHelper.getByName<UIToggle>(gameObject, "spyer_").value = UIHelper.fromStringToBool(Config.Get("spyer_", "1"));
         UIHelper.getByName<UIToggle>(gameObject, "resize_").value = UIHelper.fromStringToBool(Config.Get("resize_", "0"));
         UIHelper.getByName<UIToggle>(gameObject, "longField_").value = UIHelper.fromStringToBool(Config.Get("longField_", "0"));
+        //BGM
+        isBGMMute = UIHelper.getByName<UIToggle>(gameObject, "muteBGM");
+        UIHelper.getByName<UIToggle>(gameObject, "muteBGM").value = UIHelper.fromStringToBool(Config.Get("muteBGMAudio", "0"));
+
         if (QualitySettings.GetQualityLevel() < 3)
         {
             UIHelper.getByName<UIToggle>(gameObject, "high_").value = false;
@@ -89,6 +95,25 @@ public class Setting : WindowServant2D
             int FPS = int.Parse(setting.LimFPS.value);
             Application.targetFrameRate = FPS;
         }
+    }
+
+    private void muteBGM()
+    {
+        if (isBGMMute.value)
+        {
+            if (Program.I().bgm != null)
+            {
+                Program.I().bgm.Start();
+            }
+        }
+        else
+        {
+            if (Program.I().bgm != null && Program.I().bgm.audioSource != null)
+            {
+                Program.I().bgm.audioSource.Stop();
+            }
+        }
+        save();
     }
 
     private void readVales()

@@ -328,6 +328,7 @@ public class SelectServer : WindowServantSP
                 }
                 File.WriteAllText("config/passwords.conf", all);
                 printFile(false);
+                Program.I().mycard.isMatching = false;
                 (new Thread(() => { TcpHelper.join(ipString, name, portString, pswString, versionString); })).Start();
             }
             else

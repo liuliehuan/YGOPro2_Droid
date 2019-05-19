@@ -87,6 +87,7 @@ public class Program : MonoBehaviour
     public GameObject new_ui_setting;
     public GameObject new_ui_book;
     public GameObject new_ui_selectServer;
+    public GameObject new_ui_mycard;
     public GameObject new_ui_RoomList;
     public GameObject new_ui_gameInfo;
     public GameObject new_ui_cardDescription;
@@ -138,6 +139,7 @@ public class Program : MonoBehaviour
     public GameObject New_winCaculator;
     public GameObject New_winCaculatorRecord;
     public GameObject New_ocgcore_placeSelector;
+    public BGMController bgm;
     #endregion
 
     #region Initializement
@@ -867,6 +869,7 @@ public class Program : MonoBehaviour
     public DeckManager deckManager;
     public Ocgcore ocgcore;
     public SelectServer selectServer;
+    public MyCard mycard;
     public RoomList roomList;
     public Book book;
     public puzzleMode puzzleMode;
@@ -889,6 +892,8 @@ public class Program : MonoBehaviour
         servants.Add(ocgcore);
         selectServer = new SelectServer();
         servants.Add(selectServer);
+        mycard = new MyCard();
+        servants.Add(mycard);
         roomList = new RoomList();
         servants.Add(roomList);
         book = new Book();
@@ -935,6 +940,10 @@ public class Program : MonoBehaviour
         {
             selectServer.hide();
         }
+        if (to != mycard && mycard.isShowed)
+        {
+            mycard.hide();
+        }
         if (to != selectReplay && selectReplay.isShowed)
         {
             selectReplay.hide();
@@ -952,18 +961,19 @@ public class Program : MonoBehaviour
             roomList.hide();
         }
 
-        if (to == backGroundPic && backGroundPic.isShowed == false) backGroundPic.show();
-        if (to == menu && menu.isShowed == false) menu.show();
-        if (to == setting && setting.isShowed == false) setting.show();
-        if (to == selectDeck && selectDeck.isShowed == false) selectDeck.show();
-        if (to == room && room.isShowed == false) room.show();
-        if (to == deckManager && deckManager.isShowed == false) deckManager.show();
-        if (to == ocgcore && ocgcore.isShowed == false) ocgcore.show();
-        if (to == selectServer && selectServer.isShowed == false) selectServer.show();
-        if (to == selectReplay && selectReplay.isShowed == false) selectReplay.show();
-        if (to == puzzleMode && puzzleMode.isShowed == false) puzzleMode.show();
-        if (to == aiRoom && aiRoom.isShowed == false) aiRoom.show();
-        if (to == roomList && !roomList.isShowed) roomList.show();
+        if (to == backGroundPic && backGroundPic.isShowed == false) { backGroundPic.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == menu && menu.isShowed == false) { menu.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == setting && setting.isShowed == false) { setting.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == selectDeck && selectDeck.isShowed == false) { selectDeck.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.deck);} catch{} }
+        if (to == room && room.isShowed == false) { room.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.lobby);} catch{} }
+        if (to == deckManager && deckManager.isShowed == false) { deckManager.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.deck);} catch{} }
+        if (to == ocgcore && ocgcore.isShowed == false) { ocgcore.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);} catch{} }
+        if (to == selectServer && selectServer.isShowed == false) { selectServer.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == mycard && mycard.isShowed == false) {mycard.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == selectReplay && selectReplay.isShowed == false) { selectReplay.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == puzzleMode && puzzleMode.isShowed == false) { puzzleMode.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == aiRoom && aiRoom.isShowed == false) { aiRoom.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == roomList && !roomList.isShowed) { roomList.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.lobby);} catch{} }
 
     }
 
@@ -1021,7 +1031,7 @@ public class Program : MonoBehaviour
 
         string FPS = m_FPS.ToString();
         try { FPS = FPS.Substring(0, 5); } catch{}
-        GUI.Label(new Rect(10, 5, 200, 200), "[Ver 1.034.9] " + "FPS: " + FPS);
+        GUI.Label(new Rect(10, 5, 200, 200), "[Ver 1.034.9-B] " + "FPS: " + FPS);
     }
 
     void Update()
@@ -1138,13 +1148,13 @@ public class Program : MonoBehaviour
             UIHelper.MaximizeWindow();
         }
         backGroundPic.show();
+        bgm = gameObject.AddComponent<BGMController>();
         shiftToServant(menu);
     }
 
     public static bool Running = true;
 
     public static bool MonsterCloud = false;
-
     public static float fieldSize = 1;
     public static bool longField = false;
 
