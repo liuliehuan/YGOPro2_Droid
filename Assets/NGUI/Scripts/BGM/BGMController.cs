@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 
 public class BGMController : MonoBehaviour
 {
     public string soundFilePath;
-    public string soundExtension;
     public AudioSource audioSource;
     AudioClip audioClip;
     private float multiplier;
@@ -42,7 +42,6 @@ public class BGMController : MonoBehaviour
     public BGMController ()
     {
         currentPlaying = BGMType.none;
-        soundExtension = ".ogg";
         BGMController.Instance = this;
         LoadAllBGM();
     }
@@ -134,16 +133,16 @@ public class BGMController : MonoBehaviour
         win = new List<string>();
 
         string soundPath = "sound/bgm/";
-        //防止缺少文件时发生错误
-        try { duel.AddRange(Directory.GetFiles(string.Concat(soundPath, "duel"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { advantage.AddRange(Directory.GetFiles(string.Concat(soundPath, "advantage"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { disadvantage.AddRange(Directory.GetFiles(string.Concat(soundPath, "disadvantage"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { deck.AddRange(Directory.GetFiles(string.Concat(soundPath, "deck"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { lobby.AddRange(Directory.GetFiles(string.Concat(soundPath, "lobby"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { lose.AddRange(Directory.GetFiles(string.Concat(soundPath, "lose"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { menu.AddRange(Directory.GetFiles(string.Concat(soundPath, "menu"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { siding.AddRange(Directory.GetFiles(string.Concat(soundPath, "siding"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { win.AddRange(Directory.GetFiles(string.Concat(soundPath, "win"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        //Unity 能使用的音频格式：.aif .wav .mp3 .ogg
+        try { duel.AddRange(Directory.GetFiles(string.Concat(soundPath, "duel"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
+        try { advantage.AddRange(Directory.GetFiles(string.Concat(soundPath, "advantage"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
+        try { disadvantage.AddRange(Directory.GetFiles(string.Concat(soundPath, "disadvantage"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
+        try { deck.AddRange(Directory.GetFiles(string.Concat(soundPath, "deck"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
+        try { lobby.AddRange(Directory.GetFiles(string.Concat(soundPath, "lobby"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
+        try { lose.AddRange(Directory.GetFiles(string.Concat(soundPath, "lose"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
+        try { menu.AddRange(Directory.GetFiles(string.Concat(soundPath, "menu"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
+        try { siding.AddRange(Directory.GetFiles(string.Concat(soundPath, "siding"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
+        try { win.AddRange(Directory.GetFiles(string.Concat(soundPath, "win"), "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".mp3") || s.EndsWith(".ogg")));} catch {}
     }
 
     public void changeBGMVol(float vol)
