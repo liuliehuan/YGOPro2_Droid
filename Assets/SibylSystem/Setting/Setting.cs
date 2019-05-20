@@ -50,6 +50,7 @@ public class Setting : WindowServant2D
         UIHelper.registEvent(gameObject, "size_", onChangeSize);
         //UIHelper.registEvent(gameObject, "alpha_", onChangeAlpha);
         UIHelper.registEvent(gameObject, "vSize_", onChangeVsize);
+        UIHelper.registEvent(gameObject, "muteBGM", muteBGM);
         sliderSize = UIHelper.getByName<UISlider>(gameObject, "size_");
         //sliderAlpha = UIHelper.getByName<UISlider>(gameObject, "alpha_");
         sliderVsize = UIHelper.getByName<UISlider>(gameObject, "vSize_");
@@ -99,7 +100,7 @@ public class Setting : WindowServant2D
 
     private void muteBGM()
     {
-        if (isBGMMute.value)
+        if (!isBGMMute.value)
         {
             if (Program.I().bgm != null)
             {

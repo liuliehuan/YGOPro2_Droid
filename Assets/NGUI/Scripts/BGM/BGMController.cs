@@ -49,14 +49,13 @@ public class BGMController : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
-        
         audioSource = gameObject.AddComponent<AudioSource>();
-        
-        
+
 #if UNITY_IOS
-        multiplier=0.08f;
-#endif
+        multiplier = 0.08f;
+#else
         multiplier = 0.8f;
+#endif
     }
 
     public void StartBGM(BGMType kind)
