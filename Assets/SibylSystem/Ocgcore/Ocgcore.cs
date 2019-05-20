@@ -1230,15 +1230,11 @@ public class Ocgcore : ServantWithCardDescription
             if (Program.I().room.duelEnded)
                 yield break;
             else if (result == duelResult.disLink && life_0 >= life_1 * 2)
-                BGMController.Instance.StartBGM(BGMController.BGMType.btl_winning);
+                BGMController.Instance.StartBGM(BGMController.BGMType.advantage);
             else if (result == duelResult.disLink && life_1 >= life_0 * 2)
-                BGMController.Instance.StartBGM(BGMController.BGMType.btl_losing);
-            else if (result == duelResult.win)
-                BGMController.Instance.StartBGM(BGMController.BGMType.win);
-            else if (result == duelResult.lose || result == duelResult.draw)
-                BGMController.Instance.StartBGM(BGMController.BGMType.lose);
+                BGMController.Instance.StartBGM(BGMController.BGMType.disadvantage);
             else if(result == duelResult.disLink)
-                BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);
+                BGMController.Instance.StartBGM(BGMController.BGMType.duel);
         } catch {}
 
         yield return new WaitForSeconds(0.125f);
@@ -1310,11 +1306,13 @@ public class Ocgcore : ServantWithCardDescription
                 keys.Insert(0, currentMessageIndex);
                 if (player == 2)
                 {
+                    try { BGMController.Instance.StartBGM(BGMController.BGMType.lose); } catch {}
                     result = duelResult.draw;
                     printDuelLog(InterString.Get("游戏平局！"));
                 }
                 else if (player == 0 || winType == 4)
                 {
+                    try { BGMController.Instance.StartBGM(BGMController.BGMType.win); } catch {}
                     result = duelResult.win;
                     if (cookie_matchKill > 0)
                     {
@@ -1329,6 +1327,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 else
                 {
+                    try { BGMController.Instance.StartBGM(BGMController.BGMType.lose); } catch {}
                     result = duelResult.lose;
                     if (cookie_matchKill > 0)
                     {
@@ -1343,10 +1342,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 break;
             case GameMessage.Start:
-                try {
-                    BGMController.Instance.StartCoroutine(BGMHandler());
-                    BGMController.Instance.StartBGM(BGMController.BGMType.btl_general);
-                } catch {}
+                try { BGMController.Instance.StartBGM(BGMController.BGMType.duel); } catch {}
                 confirmedCards.Clear();
                 gameField.currentPhase = GameField.ph.dp;
                 result = duelResult.disLink;
@@ -1727,6 +1723,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     life_1 -= val;
                 }
+                BGMController.Instance.StartCoroutine(BGMHandler());
                 break;
             case GameMessage.PayLpCost:
                 player = localPlayer(r.ReadByte());
@@ -1748,6 +1745,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     life_1 -= val;
                 }
+                BGMController.Instance.StartCoroutine(BGMHandler());
                 break;
             case GameMessage.Recover:
                 ES_hint = InterString.Get("玩家生命值回复时");
@@ -1770,6 +1768,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     life_1 += val;
                 }
+                BGMController.Instance.StartCoroutine(BGMHandler());
                 break;
             case GameMessage.LpUpdate:
                 player = localPlayer(r.ReadByte());

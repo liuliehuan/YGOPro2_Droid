@@ -11,15 +11,15 @@ public class BGMController : MonoBehaviour
     public AudioSource audioSource;
     AudioClip audioClip;
     private float multiplier;
-    List<string> btl_general;
-    List<string> btl_losing;
+    List<string> duel;
+    List<string> disadvantage;
     List<string> deck;
     List<string> lobby;
     List<string> lose;
     List<string> menu;
     List<string> siding;
     List<string> win;
-    List<string> btl_winning;
+    List<string> advantage;
     BGMType currentPlaying;
     Coroutine soundRoutine;
     Uri SoundURI;
@@ -28,15 +28,15 @@ public class BGMController : MonoBehaviour
     public enum BGMType
     {
        none = 0,
-       btl_general = 1,
-       btl_losing = 2,
+       duel = 1,
+       disadvantage = 2,
        deck = 3,
        lobby = 4,
        lose = 5,
        menu = 6,
        siding = 7,
        win = 8,
-       btl_winning = 9
+       advantage = 9
     }
 
     public BGMController ()
@@ -49,14 +49,13 @@ public class BGMController : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
-        
         audioSource = gameObject.AddComponent<AudioSource>();
-        
-        
+
 #if UNITY_IOS
-        multiplier=0.08f;
-#endif
+        multiplier = 0.08f;
+#else
         multiplier = 0.8f;
+#endif
     }
 
     public void StartBGM(BGMType kind)
@@ -68,17 +67,17 @@ public class BGMController : MonoBehaviour
         int bgmNumber = 0;
         switch (kind)
         {
-            case BGMType.btl_general:
-                bgmNumber = rnd.Next(0, btl_general.Count);
-                PlayRandomBGM(btl_general[bgmNumber]);
+            case BGMType.duel:
+                bgmNumber = rnd.Next(0, duel.Count);
+                PlayRandomBGM(duel[bgmNumber]);
                 break;
-            case BGMType.btl_winning:
-                bgmNumber = rnd.Next(0, btl_winning.Count);
-                PlayRandomBGM(btl_winning[bgmNumber]);
+            case BGMType.advantage:
+                bgmNumber = rnd.Next(0, advantage.Count);
+                PlayRandomBGM(advantage[bgmNumber]);
                 break;
-            case BGMType.btl_losing:
-                bgmNumber = rnd.Next(0, btl_losing.Count);
-                PlayRandomBGM(btl_losing[bgmNumber]);
+            case BGMType.disadvantage:
+                bgmNumber = rnd.Next(0, disadvantage.Count);
+                PlayRandomBGM(disadvantage[bgmNumber]);
                 break;
             case BGMType.deck:
                 bgmNumber = rnd.Next(0, deck.Count);
@@ -124,9 +123,9 @@ public class BGMController : MonoBehaviour
 
     public void LoadAllBGM()
     {
-        btl_general = new List<string>();
-        btl_losing = new List<string>();
-        btl_winning = new List<string>();
+        duel = new List<string>();
+        disadvantage = new List<string>();
+        advantage = new List<string>();
         deck = new List<string>();
         lobby = new List<string>();
         lose = new List<string>();
@@ -136,9 +135,9 @@ public class BGMController : MonoBehaviour
 
         string soundPath = "sound/bgm/";
         //防止缺少文件时发生错误
-        try { btl_general.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_general"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { btl_winning.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_winning"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
-        try { btl_losing.AddRange(Directory.GetFiles(string.Concat(soundPath, "btl_losing"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { duel.AddRange(Directory.GetFiles(string.Concat(soundPath, "duel"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { advantage.AddRange(Directory.GetFiles(string.Concat(soundPath, "advantage"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
+        try { disadvantage.AddRange(Directory.GetFiles(string.Concat(soundPath, "disadvantage"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
         try { deck.AddRange(Directory.GetFiles(string.Concat(soundPath, "deck"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
         try { lobby.AddRange(Directory.GetFiles(string.Concat(soundPath, "lobby"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
         try { lose.AddRange(Directory.GetFiles(string.Concat(soundPath, "lose"), "*" + soundExtension, SearchOption.TopDirectoryOnly));} catch {}
