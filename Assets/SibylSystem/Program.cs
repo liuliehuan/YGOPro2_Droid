@@ -313,10 +313,18 @@ public class Program : MonoBehaviour
             //File.Create(ANDROID_GAME_PATH + ".nomedia");
         }
 
-        if (!File.Exists(ANDROID_GAME_PATH + "updates/ui.txt") || !File.Exists(ANDROID_GAME_PATH + "texture/ui/bg_of_right_game_buttons.png")
-        || !File.Exists(ANDROID_GAME_PATH + "texture/ui/bg_of_right_card_searcher2.png"))
+        if (!File.Exists(ANDROID_GAME_PATH + "updates/ui.txt") || !Directory.Exists(ANDROID_GAME_PATH + "texture/ui/"))
         {
             string filePath = Application.streamingAssetsPath + "/ui.zip";
+            var www = new WWW(filePath);
+            while (!www.isDone) { }
+            byte[] bytes = www.bytes;
+            ExtractZipFile(bytes, ANDROID_GAME_PATH);
+        }
+
+        if (!File.Exists(ANDROID_GAME_PATH + "updates/bgm_0.1.txt") || !Directory.Exists(ANDROID_GAME_PATH + "sound/bgm/"))
+        {
+            string filePath = Application.streamingAssetsPath + "/bgm.zip";
             var www = new WWW(filePath);
             while (!www.isDone) { }
             byte[] bytes = www.bytes;
@@ -341,6 +349,11 @@ public class Program : MonoBehaviour
         if (!File.Exists(GamePaths + "updates/ver_1.034.9.txt"))
         {
             string filePath = Application.streamingAssetsPath + "/ygopro2-data.zip";
+            ExtractZipFile(System.IO.File.ReadAllBytes(filePath), GamePaths);
+        }
+        if (!File.Exists(GamePaths + "updates/bgm_0.1.txt"))
+        {
+            string filePath = Application.streamingAssetsPath + "/bgm.zip";
             ExtractZipFile(System.IO.File.ReadAllBytes(filePath), GamePaths);
         }
         Environment.CurrentDirectory = GamePaths;
@@ -1051,7 +1064,7 @@ public class Program : MonoBehaviour
 
         string FPS = m_FPS.ToString();
         try { FPS = FPS.Substring(0, 5); } catch{}
-        GUI.Label(new Rect(10, 5, 200, 200), "[Ver 1.034.9-B] " + "FPS: " + FPS);
+        GUI.Label(new Rect(10, 5, 200, 200), "[Ver 1.034.9-C] " + "FPS: " + FPS);
     }
 
     void Update()
