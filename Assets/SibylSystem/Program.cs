@@ -136,6 +136,7 @@ public class Program : MonoBehaviour
     public GameObject New_winCaculator;
     public GameObject New_winCaculatorRecord;
     public GameObject New_ocgcore_placeSelector;
+    public BGMController bgm;
     #endregion
 
     #region Initializement
@@ -830,18 +831,18 @@ public class Program : MonoBehaviour
             roomList.hide();
         }
 
-        if (to == backGroundPic && backGroundPic.isShowed == false) backGroundPic.show();
-        if (to == menu && menu.isShowed == false) menu.show();
-        if (to == setting && setting.isShowed == false) setting.show();
-        if (to == selectDeck && selectDeck.isShowed == false) selectDeck.show();
-        if (to == room && room.isShowed == false) room.show();
-        if (to == deckManager && deckManager.isShowed == false) deckManager.show();
-        if (to == ocgcore && ocgcore.isShowed == false) ocgcore.show();
-        if (to == selectServer && selectServer.isShowed == false) selectServer.show();
-        if (to == selectReplay && selectReplay.isShowed == false) selectReplay.show();
-        if (to == puzzleMode && puzzleMode.isShowed == false) puzzleMode.show();
-        if (to == aiRoom && aiRoom.isShowed == false) aiRoom.show();
-        if (to == roomList && !roomList.isShowed) roomList.show();
+        if (to == backGroundPic && backGroundPic.isShowed == false) { backGroundPic.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == menu && menu.isShowed == false) { menu.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == setting && setting.isShowed == false) { setting.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == selectDeck && selectDeck.isShowed == false) { selectDeck.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.deck);} catch{} }
+        if (to == room && room.isShowed == false) { room.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.lobby);} catch{} }
+        if (to == deckManager && deckManager.isShowed == false) { deckManager.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.deck);} catch{} }
+        if (to == ocgcore && ocgcore.isShowed == false) { ocgcore.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.duel);} catch{} }
+        if (to == selectServer && selectServer.isShowed == false) { selectServer.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == selectReplay && selectReplay.isShowed == false) { selectReplay.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == puzzleMode && puzzleMode.isShowed == false) { puzzleMode.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == aiRoom && aiRoom.isShowed == false) { aiRoom.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.menu);} catch{} }
+        if (to == roomList && !roomList.isShowed) { roomList.show(); try { BGMController.Instance.StartBGM(BGMController.BGMType.lobby);} catch{} }
 
     }
 
@@ -988,6 +989,7 @@ public class Program : MonoBehaviour
             UIHelper.MaximizeWindow();
         }
         backGroundPic.show();
+        bgm = gameObject.AddComponent<BGMController>();
         shiftToServant(menu);
     }
 

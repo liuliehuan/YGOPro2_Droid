@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -1199,6 +1200,26 @@ public class Ocgcore : ServantWithCardDescription
         Packages.Add(p);
     }
 
+    public IEnumerator BGMHandler()
+    {
+        try {
+            if (Program.I().room.duelEnded)
+                yield break;
+            else if (result == duelResult.disLink && life_0 >= life_1 * 2)
+                BGMController.Instance.StartBGM(BGMController.BGMType.advantage);
+            else if (result == duelResult.disLink && life_1 >= life_0 * 2)
+                BGMController.Instance.StartBGM(BGMController.BGMType.disadvantage);
+            else if (result == duelResult.win)
+                BGMController.Instance.StartBGM(BGMController.BGMType.win);
+            else if (result == duelResult.lose || result == duelResult.draw)
+                BGMController.Instance.StartBGM(BGMController.BGMType.lose);
+            else if(result == duelResult.disLink)
+                BGMController.Instance.StartBGM(BGMController.BGMType.duel);
+        } catch {}
+
+        yield return new WaitForSeconds(0.125f);
+    }
+
     //handle messages
     enum autoForceChainHandlerType
     {
@@ -1296,8 +1317,10 @@ public class Ocgcore : ServantWithCardDescription
                         printDuelLog(InterString.Get("游戏败北，原因：[?]", winReason));
                     }
                 }
+                BGMController.Instance.StartCoroutine(BGMHandler());
                 break;
             case GameMessage.Start:
+                try { BGMController.Instance.StartBGM(BGMController.BGMType.duel); } catch {}
                 confirmedCards.Clear();
                 gameField.currentPhase = GameField.ph.dp;
                 result = duelResult.disLink;
@@ -1678,6 +1701,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     life_1 -= val;
                 }
+                BGMController.Instance.StartCoroutine(BGMHandler());
                 break;
             case GameMessage.PayLpCost:
                 player = localPlayer(r.ReadByte());
@@ -1699,6 +1723,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     life_1 -= val;
                 }
+                BGMController.Instance.StartCoroutine(BGMHandler());
                 break;
             case GameMessage.Recover:
                 ES_hint = InterString.Get("玩家生命值回复时");
@@ -1721,6 +1746,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     life_1 += val;
                 }
+                BGMController.Instance.StartCoroutine(BGMHandler());
                 break;
             case GameMessage.LpUpdate:
                 player = localPlayer(r.ReadByte());
@@ -1742,6 +1768,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     life_1 = val;
                 }
+                BGMController.Instance.StartCoroutine(BGMHandler());
                 break;
             case GameMessage.RandomSelected:
                 player = localPlayer(r.ReadByte());
